@@ -1,0 +1,37 @@
+{
+  "name": "notemy-cli",
+  "version": "1.0.0",
+  "description": "a cli tool to intract and store your notes, using notemy-api",
+  "main": "index.ts",
+  "dependencies": {
+    "@inquirer/prompts": "^3.2.0",
+    "axios": "^1.5.1",
+    "columnify": "^1.6.0",
+    "tiny-spinner": "^2.0.3",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2"
+  },
+  "bin": {
+    "notemy-cli": "./build/index.js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debxd/notemy-cli.git"
+  },
+  "keywords": [
+    "notemy-cli",
+    "note",
+    "cli",
+    "note-cli"
+  ],
+  "author": "DebXD",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/debxd/notemy-cli/issues"
+  },
+  "homepage": "https://github.com/debxd/notemy-cli#readme"
+}
