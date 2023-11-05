@@ -17,8 +17,7 @@ exports.cli = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const prompts_1 = require("@inquirer/prompts");
 const api_1 = require("./api/api");
-const tiny_spinner_1 = __importDefault(require("tiny-spinner"));
-const spinner = new tiny_spinner_1.default();
+const ora_1 = __importDefault(require("ora"));
 const cyan = chalk_1.default.hex("#32a88f");
 const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
@@ -35,9 +34,9 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
             ],
         });
         if (task === "getNotes") {
-            spinner.start("Loading Notes...");
+            const spinner = (0, ora_1.default)("Loading Notes...").start();
             const notes = yield (0, api_1.getNotes)(token);
-            spinner.success("Fetching Done!");
+            spinner.succeed("Fetching Done!");
             notes === null || notes === void 0 ? void 0 : notes.map((note) => {
                 if (note !== null) {
                     console.log(chalk_1.default.gray("-").repeat(process.stdout.columns));
@@ -52,9 +51,9 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
         if (task === "addNotes") {
             const title = yield (0, prompts_1.input)({ message: "Enter your title :" });
             const desc = yield (0, prompts_1.input)({ message: "Enter your desc :" });
-            spinner.start("Adding note...");
+            const spinner = (0, ora_1.default)("Adding Note...").start();
             const data = yield (0, api_1.addNotes)(token, title, desc);
-            spinner.success(chalk_1.default.green("Successfully added Note"));
+            spinner.succeed(chalk_1.default.green("Successfully added Note"));
             if (data.data) {
                 console.log(chalk_1.default.gray("-").repeat(process.stdout.columns));
                 console.log(cyan("id: "), (_a = data.data) === null || _a === void 0 ? void 0 : _a.id);
@@ -67,10 +66,10 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
         }
         if (task === "getSingleNote") {
             const id = yield (0, prompts_1.input)({ message: "Enter Note ID : " });
-            spinner.start("Loading note...");
+            const spinner = (0, ora_1.default)("Loading Note...").start();
             const data = yield (0, api_1.getSingleNote)(token, id);
             // console.log(data);
-            spinner.success("Fetching Done!");
+            spinner.succeed("Fetching Done!");
             if (data === null || data === void 0 ? void 0 : data.data) {
                 console.log(chalk_1.default.gray("-").repeat(process.stdout.columns));
                 console.log(cyan("id : "), (_f = data.data) === null || _f === void 0 ? void 0 : _f.id);
@@ -81,9 +80,9 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
         }
         if (task === "editNotes") {
             const id = yield (0, prompts_1.input)({ message: "Enter Note ID : " });
-            spinner.start("Loading note...");
+            const spinner = (0, ora_1.default)("Loading Note...").start();
             const data = yield (0, api_1.getSingleNote)(token, id);
-            spinner.success("Fetching Done!");
+            spinner.succeed("Fetching Done!");
             if (data.data) {
                 console.log(chalk_1.default.gray("-").repeat(process.stdout.columns));
                 console.log(cyan("id : "), (_j = data.data) === null || _j === void 0 ? void 0 : _j.id);
@@ -97,9 +96,9 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
             if (askContinue) {
                 const title = yield (0, prompts_1.input)({ message: "Enter New Note Title : " });
                 const desc = yield (0, prompts_1.input)({ message: "Enter New Note Desc : " });
-                spinner.start("Updating note...");
+                const spinner = (0, ora_1.default)("Updating Note...").start();
                 const data = yield (0, api_1.editNotes)(token, id, title, desc);
-                spinner.success(chalk_1.default.green("Note is Updated!"));
+                spinner.succeed(chalk_1.default.green("Note is Updated!"));
                 if (data === null || data === void 0 ? void 0 : data.data) {
                     console.log(chalk_1.default.gray("-").repeat(process.stdout.columns));
                     console.log(cyan("id : "), (_m = data.data) === null || _m === void 0 ? void 0 : _m.id);
@@ -111,9 +110,9 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
         }
         if (task === "deleteNotes") {
             const id = yield (0, prompts_1.input)({ message: "Enter Note ID : " });
-            spinner.start("Loading Note...");
+            const spinner = (0, ora_1.default)("Loading Note...").start();
             const data = yield (0, api_1.getSingleNote)(token, id);
-            spinner.success("Fetching Done!");
+            spinner.succeed("Fetching Done!");
             if (data === null || data === void 0 ? void 0 : data.data) {
                 console.log(chalk_1.default.gray("-").repeat(process.stdout.columns));
                 console.log(cyan("id : "), (_q = data.data) === null || _q === void 0 ? void 0 : _q.id);
@@ -127,13 +126,13 @@ const cli = (token) => __awaiter(void 0, void 0, void 0, function* () {
                     spinner.start("Deleting note...");
                     const data = yield (0, api_1.deleteNotes)(token, id);
                     if (data) {
-                        spinner.success(chalk_1.default.red("Note is Deleted"));
+                        spinner.succeed(chalk_1.default.red("Note is Deleted"));
                     }
                 }
             }
         }
         if (task === "quit") {
-            console.log(chalk_1.default.gray("OK Quitting!"));
+            console.log(chalk_1.default.yellow("OK Quitting!"));
             process.exit();
         }
     }

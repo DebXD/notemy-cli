@@ -2,19 +2,17 @@
 
 import { input, password } from "@inquirer/prompts";
 import fs from "fs";
-import { cli } from "./src/cli";
-import { getAccessToken, getMe } from "./src/api/api";
-import Spinner from "tiny-spinner";
-
-const spinner = new Spinner();
+import { cli } from "./cli";
+import { getAccessToken, getMe } from "./api/api";
+import ora from "ora";
 
 const main = async () => {
 	try {
 		const token = fs.readFileSync("./.tmp", "utf8");
 
-		spinner.start("Processsing...");
+		const spinner = ora("Processsing...").start();
 		const res = await getMe(token);
-		spinner.success("Done!");
+		spinner.succeed("Done!");
 		if (res.success === true) {
 			cli(token);
 		}
@@ -25,9 +23,9 @@ const main = async () => {
 			mask: true,
 		});
 
-		spinner.start("Processsing...");
+		// spinner.start("Processsing...");
 		const token = await getAccessToken(username, pass);
-		spinner.success("Done!");
+		// spinner.success("Done!");
 		if (token) {
 			fs.writeFileSync(".tmp", token, "utf8");
 			cli(token);

@@ -8,8 +8,7 @@ import {
 	getNotes,
 	getSingleNote,
 } from "./api/api";
-import Spinner from "tiny-spinner";
-const spinner = new Spinner();
+import ora from "ora";
 
 const cyan = chalk.hex("#32a88f");
 
@@ -36,9 +35,9 @@ export const cli = async (token: string) => {
 		});
 
 		if (task === "getNotes") {
-			spinner.start("Loading Notes...");
+			const spinner = ora("Loading Notes...").start();
 			const notes = await getNotes(token);
-			spinner.success("Fetching Done!");
+			spinner.succeed("Fetching Done!");
 			notes?.map((note: noteType) => {
 				if (note !== null) {
 					console.log(chalk.gray("-").repeat(process.stdout.columns));
@@ -54,9 +53,9 @@ export const cli = async (token: string) => {
 		if (task === "addNotes") {
 			const title = await input({ message: "Enter your title :" });
 			const desc = await input({ message: "Enter your desc :" });
-			spinner.start("Adding note...");
+			const spinner = ora("Adding Note...").start();
 			const data = await addNotes(token, title, desc);
-			spinner.success(chalk.green("Successfully added Note"));
+			spinner.succeed(chalk.green("Successfully added Note"));
 			if (data.data) {
 				console.log(chalk.gray("-").repeat(process.stdout.columns));
 				console.log(cyan("id: "), data.data?.id);
@@ -70,10 +69,10 @@ export const cli = async (token: string) => {
 
 		if (task === "getSingleNote") {
 			const id = await input({ message: "Enter Note ID : " });
-			spinner.start("Loading note...");
+			const spinner = ora("Loading Note...").start();
 			const data = await getSingleNote(token, id);
 			// console.log(data);
-			spinner.success("Fetching Done!");
+			spinner.succeed("Fetching Done!");
 			if (data?.data) {
 				console.log(chalk.gray("-").repeat(process.stdout.columns));
 				console.log(cyan("id : "), data.data?.id);
@@ -84,9 +83,9 @@ export const cli = async (token: string) => {
 		}
 		if (task === "editNotes") {
 			const id = await input({ message: "Enter Note ID : " });
-			spinner.start("Loading note...");
+			const spinner = ora("Loading Note...").start();
 			const data = await getSingleNote(token, id);
-			spinner.success("Fetching Done!");
+			spinner.succeed("Fetching Done!");
 			if (data.data) {
 				console.log(chalk.gray("-").repeat(process.stdout.columns));
 				console.log(cyan("id : "), data.data?.id);
@@ -100,9 +99,9 @@ export const cli = async (token: string) => {
 			if (askContinue) {
 				const title = await input({ message: "Enter New Note Title : " });
 				const desc = await input({ message: "Enter New Note Desc : " });
-				spinner.start("Updating note...");
+				const spinner = ora("Updating Note...").start();
 				const data = await editNotes(token, id, title, desc);
-				spinner.success(chalk.green("Note is Updated!"));
+				spinner.succeed(chalk.green("Note is Updated!"));
 				if (data?.data) {
 					console.log(chalk.gray("-").repeat(process.stdout.columns));
 					console.log(cyan("id : "), data.data?.id);
@@ -114,9 +113,9 @@ export const cli = async (token: string) => {
 		}
 		if (task === "deleteNotes") {
 			const id = await input({ message: "Enter Note ID : " });
-			spinner.start("Loading Note...");
+			const spinner = ora("Loading Note...").start();
 			const data = await getSingleNote(token, id);
-			spinner.success("Fetching Done!");
+			spinner.succeed("Fetching Done!");
 			if (data?.data) {
 				console.log(chalk.gray("-").repeat(process.stdout.columns));
 				console.log(cyan("id : "), data.data?.id);
@@ -130,13 +129,13 @@ export const cli = async (token: string) => {
 					spinner.start("Deleting note...");
 					const data = await deleteNotes(token, id);
 					if (data) {
-						spinner.success(chalk.red("Note is Deleted"));
+						spinner.succeed(chalk.red("Note is Deleted"));
 					}
 				}
 			}
 		}
 		if (task === "quit") {
-			console.log(chalk.gray("OK Quitting!"));
+			console.log(chalk.yellow("OK Quitting!"));
 			process.exit();
 		}
 	}

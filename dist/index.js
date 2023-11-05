@@ -15,16 +15,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const prompts_1 = require("@inquirer/prompts");
 const fs_1 = __importDefault(require("fs"));
-const cli_1 = require("./src/cli");
-const api_1 = require("./src/api/api");
-const tiny_spinner_1 = __importDefault(require("tiny-spinner"));
-const spinner = new tiny_spinner_1.default();
+const cli_1 = require("./cli");
+const api_1 = require("./api/api");
+const ora_1 = __importDefault(require("ora"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = fs_1.default.readFileSync("./.tmp", "utf8");
-        spinner.start("Processsing...");
+        const spinner = (0, ora_1.default)("Processsing...").start();
         const res = yield (0, api_1.getMe)(token);
-        spinner.success("Done!");
+        spinner.succeed("Done!");
         if (res.success === true) {
             (0, cli_1.cli)(token);
         }
@@ -35,9 +34,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             message: "Enter your Password :",
             mask: true,
         });
-        spinner.start("Processsing...");
+        // spinner.start("Processsing...");
         const token = yield (0, api_1.getAccessToken)(username, pass);
-        spinner.success("Done!");
+        // spinner.success("Done!");
         if (token) {
             fs_1.default.writeFileSync(".tmp", token, "utf8");
             (0, cli_1.cli)(token);
