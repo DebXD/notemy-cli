@@ -1,6 +1,6 @@
 {
   "name": "notemy-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a cli tool to intract and store your notes, using notemy-api",
   "main": "index.ts",
   "dependencies": {
@@ -12,7 +12,7 @@
     "typescript": "^5.2.2"
   },
   "bin": {
-    "notemy-cli": "./dist/index.js"
+    "notemy-cli": "dist/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

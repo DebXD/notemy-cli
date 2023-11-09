@@ -163,6 +163,7 @@ const deleteNotes = (token, id) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.deleteNotes = deleteNotes;
 const getMe = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const headers = {
             Authorization: `Bearer ${token}`,
@@ -177,7 +178,12 @@ const getMe = (token) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (err) {
-        console.log(err);
+        if (((_a = err.response) === null || _a === void 0 ? void 0 : _a.status) === 401) {
+            console.log(chalk_1.default.red("\nInvalid Token, Enter Your Credentials again."));
+        }
+        else {
+            console.log(err);
+        }
     }
 });
 exports.getMe = getMe;

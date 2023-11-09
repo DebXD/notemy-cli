@@ -5,16 +5,20 @@ import fs from "fs";
 import { cli } from "./cli";
 import { getAccessToken, getMe } from "./api/api";
 import ora from "ora";
+import os from "os";
 
 const main = async () => {
+	const homeDirectory = os.homedir();
 	try {
-		const token = fs.readFileSync("./.tmp", "utf8");
+		const token = fs.readFileSync(`${homeDirectory}/.token`, "utf8");
 
 		const spinner = ora("Processsing...").start();
 		const res = await getMe(token);
-		spinner.succeed("Done!");
+		spinner.stop();
 		if (res.success === true) {
+			spinner.succeed("Done!");
 			cli(token);
+		} else {
 		}
 	} catch (err) {
 		const username = await input({ message: "Enter your Username :" });
@@ -23,11 +27,11 @@ const main = async () => {
 			mask: true,
 		});
 
-		// spinner.start("Processsing...");
+		const spinner = ora("Processsing...").start();
 		const token = await getAccessToken(username, pass);
-		// spinner.success("Done!");
+		spinner.succeed("Done!");
 		if (token) {
-			fs.writeFileSync(".tmp", token, "utf8");
+			fs.writeFileSync(`${homeDirectory}/.token`, token, "utf8");
 			cli(token);
 		}
 	}

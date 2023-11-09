@@ -18,14 +18,19 @@ const fs_1 = __importDefault(require("fs"));
 const cli_1 = require("./cli");
 const api_1 = require("./api/api");
 const ora_1 = __importDefault(require("ora"));
+const os_1 = __importDefault(require("os"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    const homeDirectory = os_1.default.homedir();
     try {
-        const token = fs_1.default.readFileSync("./.tmp", "utf8");
+        const token = fs_1.default.readFileSync(`${homeDirectory}/.token`, "utf8");
         const spinner = (0, ora_1.default)("Processsing...").start();
         const res = yield (0, api_1.getMe)(token);
-        spinner.succeed("Done!");
+        spinner.stop();
         if (res.success === true) {
+            spinner.succeed("Done!");
             (0, cli_1.cli)(token);
+        }
+        else {
         }
     }
     catch (err) {
@@ -34,11 +39,11 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             message: "Enter your Password :",
             mask: true,
         });
-        // spinner.start("Processsing...");
+        const spinner = (0, ora_1.default)("Processsing...").start();
         const token = yield (0, api_1.getAccessToken)(username, pass);
-        // spinner.success("Done!");
+        spinner.succeed("Done!");
         if (token) {
-            fs_1.default.writeFileSync(".tmp", token, "utf8");
+            fs_1.default.writeFileSync(`${homeDirectory}/.token`, token, "utf8");
             (0, cli_1.cli)(token);
         }
     }

@@ -157,7 +157,11 @@ export const getMe = async (token: string) => {
 			const data = response.data;
 			return data;
 		}
-	} catch (err) {
-		console.log(err);
+	} catch (err: any) {
+		if (err.response?.status === 401) {
+			console.log(chalk.red("\nInvalid Token, Enter Your Credentials again."));
+		} else {
+			console.log(err);
+		}
 	}
 };
