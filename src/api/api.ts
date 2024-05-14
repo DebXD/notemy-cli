@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import chalk from "chalk";
-axios.defaults.baseURL = "https://notemy.dustbin.me/api/auth";
+axios.defaults.baseURL = "https://notemy-api.dustbin.me/api/auth";
 
 interface noteType {
 	id: string;
