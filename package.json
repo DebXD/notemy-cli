@@ -1,6 +1,6 @@
 {
   "name": "notemy-cli",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "a cli tool to intract and store your notes, using notemy-api",
   "main": "index.ts",
   "dependencies": {

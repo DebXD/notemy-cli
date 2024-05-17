@@ -27,13 +27,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMe = exports.deleteNotes = exports.editNotes = exports.getSingleNote = exports.addNotes = exports.getNotes = exports.getAccessToken = void 0;
 const axios_1 = __importDefault(require("axios"));
 const chalk_1 = __importDefault(require("chalk"));
-axios_1.default.defaults.baseURL = "https://notemy.dustbin.me/api/auth";
+axios_1.default.defaults.baseURL = "https://notemy-api.dustbin.me/api/auth/";
 const getAccessToken = (username, pass) => __awaiter(void 0, void 0, void 0, function* () {
     const cred = { username: username, password: pass };
     try {
         const res = yield axios_1.default.post("/login", cred);
         const accessToken = res.data.data.accessToken;
-        // console.log(accessToken);
+        console.log(username, pass);
         return accessToken;
     }
     catch (err) {
